@@ -41,6 +41,14 @@ minecraft {
 	}
 }
 
+jarJar.enable()
+
+reobf {
+    jarJar { }
+}
+
+tasks.jarJar.finalizedBy('reobfJarJar')
+
 sourceSets.main.resources { 
 	srcDir 'src/generated/resources' 
 }
@@ -53,6 +61,7 @@ dependencies {
 	minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 	
 	implementation fg.deobf("com.github.willatendo:Simple-Library:${simple_library_version}")
+	jarJar(group: 'com.github.willatendo', name: 'Simple-Library', version: "[v1.0.0,v1.1.0)")
 }
 
 tasks.named('jar', Jar).configure {
