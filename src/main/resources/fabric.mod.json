@@ -1,0 +1,28 @@
+{
+	"schemaVersion": 1,
+	"id": "",
+	"version": "",
+	"name": "",
+	"description": "",
+	"authors": [
+		"Willatendo"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "MIT",
+	"icon": "",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			""
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.15.0",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}
