@@ -1,0 +1,38 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.gradle.userdev' version '7.0.142'
+}
+
+//minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
+
+jarJar.enable()
+
+runs {
+    configureEach {
+        modSource project.sourceSets.main
+    }
+
+    client {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    server {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
+
+    data {
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file("${project(':common').projectDir.path}/src/generated/resources/").getAbsolutePath(), '--existing', file("${project(':common').projectDir.path}/src/main/resources/").getAbsolutePath()
+    }
+}
+
+sourceSets.main.resources { srcDir "${project(':common').projectDir.path}/src/generated/resources/" }
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neoforge_version}"
+
+    implementation "simplelibrary:simplelibrary-neoforge:${simple_library_version}"
+    jarJar(group: 'simplelibrary', name: 'simplelibrary-neoforge', version: "[3.4.4,4.0.0)")
+
+    implementation "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+}
