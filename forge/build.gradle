@@ -1,0 +1,59 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
+}
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    copyIdeResources = true 
+
+    reobf = false 
+
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformer = at
+    }
+
+    runs {
+        client {
+            workingDirectory file('runs/client')
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory file('runs/server')
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            fg.component(it)
+        }
+    }
+}
+
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
